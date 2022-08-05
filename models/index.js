@@ -1,15 +1,13 @@
-const User = require("./User");
-const Gobble = require("./Gobble")
+const User = require('./User');
+const Gear = require('./Gear');
 
-User.hasMany(Gobble,{
-    onDelete:"CASCADE",
-    foreignKey:{
-        allowNull:false
-    }
-})
-Gobble.belongsTo(User);
+User.hasMany(Gear, {
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE'
+});
 
-module.exports={
-    User,
-    Gobble
-}
+Gear.belongsTo(User, {
+  foreignKey: 'user_id'
+});
+
+module.exports = { User, Gear };

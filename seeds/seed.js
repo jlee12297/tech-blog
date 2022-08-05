@@ -1,40 +1,25 @@
-const sequelize = require("../config/connection");
+const sequelize = require('../config/connection');
+const { User, Gear } = require('../models');
 
-const {User,Gobble} = require("../models");
+const userData = require('./userData.json');
+const gearData = require('./gearData.json');
 
-const users = [
-    {
-        username:"joeLovesCats",
-        email:"joe@joe.joe",
-        password:"password"
-    },
-    {
-        username:"BaShiva",
-        email:"joescats@joe.joe",
-        password:"weAreTheBest"
-    }
-]
+const seedDatabase = async () => {
+  await sequelize.sync({ force: true });
 
-const gobbles = [
-    {
-        UserId:1,
-        content:"whoa its like twitter ",
-    },
-    {
-        UserId:1,
-        content:"i love cats so much",
-    },
-    {
-        UserId:2,
-        content:"being a cat is great!",
-    },
-]
+  const users = await User.bulkCreate(userData, {
+    individualHooks: true,
+    returning: true,
+  });
 
-const seedMe = async ()=>{
-    await sequelize.sync({force:true});
-    await User.bulkCreate(users,{individualHooks:true})
-    await Gobble.bulkCreate(gobbles)
-    process.exit(0)
-}
+  for (const gear of gearData) {
+    await Gear.create({
+      ...gear,
+      user_id: users[Math.floor(Math.random() * users.length)].id,
+    });
+  }
 
-seedMe()
+  process.exit(0);
+};
+
+seedDatabase();

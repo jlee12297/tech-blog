@@ -1,9 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const userRoutes = require("./userRoutes")
-const gobbleRoutes = require("./gobbleRoutes")
+const router = require('express').Router();
+const userRoutes = require('./userRoutes');
+const GearRoutes = require('./gearRoutes');
 
-router.use("/users",userRoutes)
-router.use("/gobbles",gobbleRoutes)
+router.use('/users', userRoutes);
+router.use('/gears', GearRoutes);
 
 module.exports = router;
