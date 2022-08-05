@@ -25,6 +25,7 @@ document.querySelector("#signup").addEventListener("submit",e=>{
     e.preventDefault();
     const userObj = {
         name:document.querySelector("#signup-name").value,
+        user_location:document.querySelector("#signup-location").value,
         email:document.querySelector("#signup-email").value,
         password:document.querySelector("#signup-password").value,
     }
